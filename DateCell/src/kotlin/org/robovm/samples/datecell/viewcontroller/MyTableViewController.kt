@@ -102,15 +102,12 @@ public class MyTableViewController : UITableViewController() {
                 pickerFrame.getOrigin().setY(getView().getFrame().getHeight());
 
                 // animate the date picker out of view
-                UIView.animate(PICKER_ANIMATION_DURATION, object : Runnable {
-                    override fun run() {
+                UIView.animate(PICKER_ANIMATION_DURATION, {
                         pickerView.setFrame(pickerFrame);
-                    }
-                }, object : VoidBooleanBlock {
-                    override fun invoke(v: Boolean) {
+                }, {
                         pickerView.removeFromSuperview();
                     }
-                })
+                );
 
                 // remove the "Done" button in the navigation bar
                 getNavigationItem().setRightBarButtonItem(null);
@@ -123,13 +120,11 @@ public class MyTableViewController : UITableViewController() {
 
         // if the local changes while in the background, we need to be notified so we can update the date
         // format in the table view cells
-        localeNotif = NSLocale.Notifications.observeCurrentLocaleDidChange(object : Runnable {
-            override fun run() {
+        localeNotif = NSLocale.Notifications.observeCurrentLocaleDidChange {
                 // the user changed the locale (region format) in Settings, so we are notified here to
                 // update the date format in the table view cells
                 getTableView().reloadData();
-            }
-        })
+        };
 
         getTableView().registerReusableCellClass(javaClass<DateViewCell>(), DATE_CELL_ID);
         getTableView().registerReusableCellClass(javaClass<UITableViewCell>(), DATE_PICKER_ID);
@@ -332,16 +327,13 @@ public class MyTableViewController : UITableViewController() {
             getView().addSubview(pickerView);
 
             // animate the date picker into view
-            UIView.animate(PICKER_ANIMATION_DURATION, object : Runnable {
-                override fun run() {
+            UIView.animate(PICKER_ANIMATION_DURATION, {
                     pickerView.setFrame(endFrame);
-                }
-            }, object : VoidBooleanBlock {
-                override fun invoke(v: Boolean) {
+            }, {
                     // add the "Done" button to the nav bar
                     getNavigationItem().setRightBarButtonItem(doneButton);
                 }
-            })
+            );
         }
     }
 

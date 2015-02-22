@@ -120,25 +120,19 @@ public class APLMoveMeView : UIView() {
          * second animation lasts for the total duration of the grow and shrink animations and contains a block responsible for
          * performing the move.
          */
-        UIView.animate(GROW_ANIMATION_DURATION_SECONDS, object: Runnable {
-            override fun run(){
+        UIView.animate(GROW_ANIMATION_DURATION_SECONDS,{
                 val transform = CGAffineTransform.createScale(GROW_FACTOR, GROW_FACTOR);
                 placardView.setTransform(transform);
-            }
-        }, object: VoidBooleanBlock {
-            override fun invoke(finished: Boolean) {
-            UIView.animate(SHRINK_ANIMATION_DURATION_SECONDS, object: Runnable {
-                override fun run() {
-                    placardView.setTransform(CGAffineTransform.createScale(SHRINK_FACTOR, SHRINK_FACTOR));
-                }
-            })}
+        }, {
+            UIView.animate(SHRINK_ANIMATION_DURATION_SECONDS, {
+                placardView.setTransform(CGAffineTransform.createScale(SHRINK_FACTOR, SHRINK_FACTOR));
+            })
         });
 
 
-        UIView.animate(GROW_ANIMATION_DURATION_SECONDS + SHRINK_ANIMATION_DURATION_SECONDS, object: Runnable {
-            override fun run() {
+        UIView.animate(GROW_ANIMATION_DURATION_SECONDS + SHRINK_ANIMATION_DURATION_SECONDS, {
                 placardView.setCenter(touchPoint);
-            }}
+            }
         );
     }
 
