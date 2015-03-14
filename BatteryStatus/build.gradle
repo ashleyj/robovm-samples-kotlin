@@ -1,0 +1,40 @@
+// Pull the plugin from Maven Central
+buildscript {
+    ext.kotlin_version = '0.10.195'
+
+    project.ext.roboVMVersion = "1.0.0"
+    project.ext.roboVMGradleVersion = "1.0.0"
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.robovm', name: 'robovm-gradle-plugin', version: project.roboVMGradleVersion
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'robovm'
+
+sourceSets {
+    main.java.srcDirs += 'src/kotlin'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    compile group: 'org.robovm', name: 'robovm-rt', version: project.roboVMVersion
+    compile group: 'org.robovm', name: 'robovm-cocoatouch', version: project.roboVMVersion
+    compile group: 'org.robovm', name: 'robovm-objc', version: project.roboVMVersion
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+robovm {
+
+}
